@@ -39,3 +39,46 @@ document.getElementById('next_page').onclick = function(){
         }
     }
 }
+
+
+
+var Page = function(){
+    var cache = {};
+    return function(page,fn){
+        if(cache[page]){
+            showPage(page,cache[page]);
+            fn && fn();
+        }else{
+            $.post('./data/getNewData.php',{
+                page:page
+            },function(res){
+                if(res.errNo == 0){
+                    showPage(page,res.data);
+                    cache[page]=res.data;
+                    fn&&fn();
+                }else{
+                    throw new Error("error");
+                }
+            })
+        }
+    }
+}();
+$('#next_page').click(function(){
+    var $news = $('#news_content'),page=$news.data('page');
+    getPageData(page,function(){
+        $news.data('page',page+1);
+    })
+})
+function getPageData(page,fn){
+        $.post('./data/getNewsData.php',{
+            page:page
+        },function(res){
+            if(res.errNo == 0){
+                showPage(page,res.data);
+                fn && fn();
+            }
+        })
+}
+function showPage(page,data){
+    //show page
+}
