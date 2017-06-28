@@ -46,3 +46,46 @@ document.getElementById('next_page').onclick = function(){
     }
 }
 </pre>
+<h3>新闻缓存数据</h3>
+var cache={};新闻缓存对象；数据是否在新闻缓存对象，在缓存对象中直接提取，如果没有请求数据放入新闻缓存
+<pre>
+var Page = function(){
+    var cache = {};
+    return function(page,fn){
+        if(cache[page]){
+            showPage(page,cache[page]);
+            fn && fn();
+        }else{
+            $.post('./data/getNewData.php',{
+                page:page
+            },function(res){
+                if(res.errNo == 0){
+                    showPage(page,res.data);
+                    cache[page]=res.data;
+                    fn&&fn();
+                }else{
+                    throw new Error("error");
+                }
+            })
+        }
+    }
+}();
+$('#next_page').click(function(){
+    var $news = $('#news_content'),page=$news.data('page');
+    getPageData(page,function(){
+        $news.data('page',page+1);
+    })
+})
+function getPageData(page,fn){
+        $.post('./data/getNewsData.php',{
+            page:page
+        },function(res){
+            if(res.errNo == 0){
+                showPage(page,res.data);
+                fn && fn();
+            }
+        })
+}
+function showPage(page,data){
+    //show page
+}</pre>
