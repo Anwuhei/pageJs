@@ -1,6 +1,7 @@
-Flyweight函数创建共同结构
-var created=[];创建一个缓存
+<h3>Flyweight函数创建共同结构</h3>
+var created=[];创建一个缓存<br>
 如果create的div数大于5直接从created缓存中提取加入到容器，小于5 直接创建div元素
+<pre>
 var Flyweight = function(){
     var created = [];
     function create(){
@@ -20,8 +21,9 @@ var Flyweight = function(){
             }
         }
     }
-}();
-类‘next_page’绑定事件实现数据与结构的分离原理
+    }();</pre>
+    <h3>类‘next_page’绑定事件实现数据与结构的分离原理</h3>
+<pre>
 var paper=0,num=5,article,len=article.length;
 for(var i=0;i<5;i++){
     if(article[i]){
@@ -43,3 +45,4 @@ document.getElementById('next_page').onclick = function(){
         }
     }
 }
+</pre>
